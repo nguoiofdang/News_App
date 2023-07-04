@@ -1,6 +1,7 @@
 package com.example.newsapp_2.ui.fragments
 
 import android.os.Bundle
+import android.transition.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +42,12 @@ class SavedNewsFragment : Fragment(R.layout.fragment_saved_news) {
 
         viewModel.getAllArticles.observe(viewLifecycleOwner, Observer {
             articleAdapter.differ.submitList(it)
+            if(it.isEmpty()) {
+                binding.tvNotification.visibility = View.VISIBLE
+            } else {
+                articleAdapter.differ.submitList(it)
+                binding.tvNotification.visibility = View.INVISIBLE
+            }
         })
 
         articleAdapter.setOnItemClickListener { article ->
